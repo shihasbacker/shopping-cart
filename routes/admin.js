@@ -37,11 +37,19 @@ router.get('/add-product',function(req,res){
   res.render('admin/add-product')
 })
 router.post('/add-product',(req,res)=>{
-  console.log(req.body);
-  console.log(req.files.image);
   
-  productHelpers.addProduct(req.body,(result)=>{
-    res.render("admin/add-product")
+  productHelpers.addProduct(req.body,(id)=>{
+    let image=req.files.image
+    console.log(id);
+    image.mv('./public/product-images/'+id+'.jpg',(err)=>{
+      if(!err){
+        res.render("admin/add-product")
+      }else{
+        console.log(err);
+      }
+
+    })
+    
   })
 })
 
